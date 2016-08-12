@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DB_CosWarsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cinsiyet">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cinsiyet" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="Cosplay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EklenmeTarihi" Type="datetime" />
+          <Property Name="AktifMi" Type="bit" Nullable="false" />
+          <Property Name="Sira" Type="int" />
+          <Property Name="Adi" Type="varchar" MaxLength="100" />
+          <Property Name="ResimYolu" Type="varchar" MaxLength="50" />
+          <Property Name="KategoriID" Type="int" />
+          <Property Name="Vote" Type="int" />
+        </EntityType>
+        <EntityType Name="CosplayEtiket">
+          <Key>
+            <PropertyRef Name="EtiketID" />
+            <PropertyRef Name="CosplayID" />
+          </Key>
+          <Property Name="EtiketID" Type="int" Nullable="false" />
+          <Property Name="CosplayID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Etiket">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EklenmeTarihi" Type="datetime" />
+          <Property Name="AktifMi" Type="bit" Nullable="false" />
+          <Property Name="Sira" Type="int" />
+          <Property Name="Adi" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="GenelBilgiler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MetaKeywords" Type="nvarchar" MaxLength="250" />
+          <Property Name="MetaDescription" Type="nchar" MaxLength="255" />
+          <Property Name="MetaTitle" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Kategori">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EklenmeTarihi" Type="datetime" />
+          <Property Name="AktifMi" Type="bit" Nullable="false" />
+          <Property Name="Sira" Type="int" />
+          <Property Name="Adi" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_Cosplay_Kategori">
+          <End Role="Kategori" Type="Self.Kategori" Multiplicity="0..1" />
+          <End Role="Cosplay" Type="Self.Cosplay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Cosplay">
+              <PropertyRef Name="KategoriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CosplayEtiket_Cosplay">
+          <End Role="Cosplay" Type="Self.Cosplay" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CosplayEtiket" Type="Self.CosplayEtiket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cosplay">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CosplayEtiket">
+              <PropertyRef Name="CosplayID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CosplayEtiket_Etiket">
+          <End Role="Etiket" Type="Self.Etiket" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CosplayEtiket" Type="Self.CosplayEtiket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Etiket">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CosplayEtiket">
+              <PropertyRef Name="EtiketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB_CosWarsModelStoreContainer">
+          <EntitySet Name="Cinsiyet" EntityType="Self.Cinsiyet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cosplay" EntityType="Self.Cosplay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CosplayEtiket" EntityType="Self.CosplayEtiket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Etiket" EntityType="Self.Etiket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GenelBilgiler" EntityType="Self.GenelBilgiler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kategori" EntityType="Self.Kategori" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Cosplay_Kategori" Association="Self.FK_Cosplay_Kategori">
+            <End Role="Kategori" EntitySet="Kategori" />
+            <End Role="Cosplay" EntitySet="Cosplay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CosplayEtiket_Cosplay" Association="Self.FK_CosplayEtiket_Cosplay">
+            <End Role="Cosplay" EntitySet="Cosplay" />
+            <End Role="CosplayEtiket" EntitySet="CosplayEtiket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CosplayEtiket_Etiket" Association="Self.FK_CosplayEtiket_Etiket">
+            <End Role="Etiket" EntitySet="Etiket" />
+            <End Role="CosplayEtiket" EntitySet="CosplayEtiket" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB_CosWarsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cinsiyet">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cinsiyet1" Type="Byte" />
+        </EntityType>
+        <EntityType Name="Cosplay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EklenmeTarihi" Type="DateTime" Precision="3" />
+          <Property Name="AktifMi" Type="Boolean" Nullable="false" />
+          <Property Name="Sira" Type="Int32" />
+          <Property Name="Adi" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ResimYolu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="KategoriID" Type="Int32" />
+          <NavigationProperty Name="Kategori" Relationship="Self.FK_Cosplay_Kategori" FromRole="Cosplay" ToRole="Kategori" />
+          <NavigationProperty Name="Etiket" Relationship="Self.CosplayEtiket" FromRole="Cosplay" ToRole="Etiket" />
+          <Property Name="Vote" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Etiket">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EklenmeTarihi" Type="DateTime" Precision="3" />
+          <Property Name="AktifMi" Type="Boolean" Nullable="false" />
+          <Property Name="Sira" Type="Int32" />
+          <Property Name="Adi" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Cosplay" Relationship="Self.CosplayEtiket" FromRole="Etiket" ToRole="Cosplay" />
+        </EntityType>
+        <EntityType Name="GenelBilgiler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MetaKeywords" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="MetaDescription" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="MetaTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Kategori">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EklenmeTarihi" Type="DateTime" Precision="3" />
+          <Property Name="AktifMi" Type="Boolean" Nullable="false" />
+          <Property Name="Sira" Type="Int32" />
+          <Property Name="Adi" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Cosplay" Relationship="Self.FK_Cosplay_Kategori" FromRole="Kategori" ToRole="Cosplay" />
+        </EntityType>
+        <Association Name="FK_Cosplay_Kategori">
+          <End Role="Kategori" Type="Self.Kategori" Multiplicity="0..1" />
+          <End Role="Cosplay" Type="Self.Cosplay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Cosplay">
+              <PropertyRef Name="KategoriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CosplayEtiket">
+          <End Role="Cosplay" Type="Self.Cosplay" Multiplicity="*" />
+          <End Role="Etiket" Type="Self.Etiket" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="DB_CosWarsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cinsiyet" EntityType="Self.Cinsiyet" />
+          <EntitySet Name="Cosplay" EntityType="Self.Cosplay" />
+          <EntitySet Name="Etiket" EntityType="Self.Etiket" />
+          <EntitySet Name="GenelBilgiler" EntityType="Self.GenelBilgiler" />
+          <EntitySet Name="Kategori" EntityType="Self.Kategori" />
+          <AssociationSet Name="FK_Cosplay_Kategori" Association="Self.FK_Cosplay_Kategori">
+            <End Role="Kategori" EntitySet="Kategori" />
+            <End Role="Cosplay" EntitySet="Cosplay" />
+          </AssociationSet>
+          <AssociationSet Name="CosplayEtiket" Association="Self.CosplayEtiket">
+            <End Role="Cosplay" EntitySet="Cosplay" />
+            <End Role="Etiket" EntitySet="Etiket" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB_CosWarsModelStoreContainer" CdmEntityContainer="DB_CosWarsEntities">
+          <EntitySetMapping Name="Cinsiyet">
+            <EntityTypeMapping TypeName="DB_CosWarsModel.Cinsiyet">
+              <MappingFragment StoreEntitySet="Cinsiyet">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Cinsiyet1" ColumnName="Cinsiyet" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cosplay">
+            <EntityTypeMapping TypeName="DB_CosWarsModel.Cosplay">
+              <MappingFragment StoreEntitySet="Cosplay">
+                <ScalarProperty Name="Vote" ColumnName="Vote" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EklenmeTarihi" ColumnName="EklenmeTarihi" />
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
+                <ScalarProperty Name="Adi" ColumnName="Adi" />
+                <ScalarProperty Name="ResimYolu" ColumnName="ResimYolu" />
+                <ScalarProperty Name="KategoriID" ColumnName="KategoriID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Etiket">
+            <EntityTypeMapping TypeName="DB_CosWarsModel.Etiket">
+              <MappingFragment StoreEntitySet="Etiket">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EklenmeTarihi" ColumnName="EklenmeTarihi" />
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
+                <ScalarProperty Name="Adi" ColumnName="Adi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GenelBilgiler">
+            <EntityTypeMapping TypeName="DB_CosWarsModel.GenelBilgiler">
+              <MappingFragment StoreEntitySet="GenelBilgiler">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MetaKeywords" ColumnName="MetaKeywords" />
+                <ScalarProperty Name="MetaDescription" ColumnName="MetaDescription" />
+                <ScalarProperty Name="MetaTitle" ColumnName="MetaTitle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kategori">
+            <EntityTypeMapping TypeName="DB_CosWarsModel.Kategori">
+              <MappingFragment StoreEntitySet="Kategori">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EklenmeTarihi" ColumnName="EklenmeTarihi" />
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
+                <ScalarProperty Name="Adi" ColumnName="Adi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="CosplayEtiket" TypeName="DB_CosWarsModel.CosplayEtiket" StoreEntitySet="CosplayEtiket">
+            <EndProperty Name="Cosplay">
+              <ScalarProperty Name="ID" ColumnName="CosplayID" />
+            </EndProperty>
+            <EndProperty Name="Etiket">
+              <ScalarProperty Name="ID" ColumnName="EtiketID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

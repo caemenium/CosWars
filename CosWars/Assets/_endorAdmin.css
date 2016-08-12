@@ -1,0 +1,10 @@
+﻿
+@media screen and (max-width: 525px){
+    .box-body{ 
+        overflow-x: auto;
+    }
+}
+
+.table.table-bordered tbody td {
+    vertical-align: middle;
+}

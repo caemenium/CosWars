@@ -1,0 +1,70 @@
+﻿@model CosWars.Models.Etiket
+
+@{
+    ViewBag.Title = "Add Tag";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        General Form Elements
+        <small>Preview</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Forms</a></li>
+        <li class="active">General Elements</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-plus"></i> Add Tag</h3>
+                </div><!-- /.box-header -->
+                <!-- form start -->
+                @using (Html.BeginForm("AddTag", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", autocomplete = "off" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="box-body">
+                        @Html.Raw(ViewBag.Message)
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select class="form-control" name="AktifMi">
+                                        <option value="true">Active</option>
+                                        <option value="false">Passive</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label>Order</label>
+                                    @Html.TextBoxFor(c => c.Sira, new { @class = "form-control", @Value = "0" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label>Tag Name</label>
+                                    @Html.TextBoxFor(c => c.Adi, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.box-body -->
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                }
+            </div><!-- /.box -->
+        </div><!--/.col -->
+
+    </div>   <!-- /.row -->
+</section><!-- /.content -->
