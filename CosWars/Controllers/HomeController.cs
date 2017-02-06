@@ -73,7 +73,10 @@ namespace CosWars.Controllers
         //    var battle = db.Cosplay.Where(c => c.AktifMi == true).OrderBy(c => Guid.NewGuid()).Take(2).ToArray();
         //    return View(battle);
         //}
-
+        public ActionResult Test()
+        {
+            return View();
+        }
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
