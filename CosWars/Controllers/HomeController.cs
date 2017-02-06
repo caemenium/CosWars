@@ -75,8 +75,6 @@ namespace CosWars.Controllers
         //}
         public ActionResult About1()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
         public ActionResult About()
